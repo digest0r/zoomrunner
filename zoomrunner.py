@@ -31,7 +31,7 @@ def join_meeting():
         open_zoom(zoom_link)
     for cnt in range(2 if main_zoom_unsandboxed else 1, num_of_zooms + 1):
         zoom_link_with_name = zoom_link + '&uname=Zoom+' + str(cnt)
-        open_zoom_sandboxed(zoom_link_with_name, i)
+        open_zoom_sandboxed(zoom_link_with_name, cnt)
     master.quit()
 
 # ------------------------------------
