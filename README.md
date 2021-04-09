@@ -9,7 +9,7 @@ Simple utility which automates joining a Zoom meeting with multiple sandboxed Zo
     - `SB2`
     - `SB3`
     - ...
-- Open the executable
+- Start ZoomRunner
 - Fill in the values:
     - `Zoom Link` &ndash; Zoom meeting URL
     - `Number of Zooms` &ndash; Number of Zoom instances to be opened
