@@ -1,14 +1,24 @@
 import os
 import subprocess
 import tkinter as tk
+from tkinter import messagebox
+import sys
 
 # ------------------------------------
 
+def get_sandboxie_exe_path():
+    program_files_path = os.getenv('PROGRAMFILES')
+    sandboxie_exe_path = program_files_path + '\\Sandboxie\\Start.exe'
+    if os.path.exists(sandboxie_exe_path):
+        return sandboxie_exe_path
+    sandboxie_exe_path = program_files_path + '\\Sandboxie-Plus\\Start.exe'
+    if os.path.exists(sandboxie_exe_path):
+        return sandboxie_exe_path
+    return False
+
 appdata_path = os.getenv('APPDATA')
 zoom_exe_path = appdata_path + '\\Zoom\\bin\\Zoom.exe'
-
-program_files_path = os.getenv('PROGRAMFILES')
-sandboxie_exe_path = program_files_path + '\\Sandboxie\\Start.exe'
+sandboxie_exe_path = get_sandboxie_exe_path()
 
 sandboxie_box_prefix = 'SB'
 
@@ -53,4 +63,10 @@ tk.Button(master, text='Quit', command=master.quit).grid(row=3, column=0, sticky
 tk.Button(master, text='Join', command=join_meeting).grid(row=3, column=1, sticky=tk.W, pady=4)
 tk.Checkbutton(master, variable=e3).grid(row=2, column=1, sticky=tk.W, pady=4)
 
-tk.mainloop()
+try:
+    if not sandboxie_exe_path:
+        messagebox.showerror("Error", "Sandboxie was not found on your computer!")
+    else:
+        tk.mainloop()
+except:
+    pass
