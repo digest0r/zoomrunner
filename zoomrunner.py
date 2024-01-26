@@ -18,10 +18,20 @@ def get_sandboxie_exe_path():
   return False
 
 
-appdata_path = os.getenv('APPDATA')
-zoom_exe_path = appdata_path + '\\Zoom\\bin\\Zoom.exe'
-sandboxie_exe_path = get_sandboxie_exe_path()
+def get_zoom_exe_path():
+  program_files_path = os.getenv('PROGRAMFILES')
+  zoom_exe_path = program_files_path + '\\Zoom\\bin\\Zoom.exe'
+  if os.path.exists(zoom_exe_path):
+    return zoom_exe_path
+  appdata_path = os.getenv('APPDATA')
+  zoom_exe_path = appdata_path + '\\Zoom\\bin\\Zoom.exe'
+  if os.path.exists(zoom_exe_path):
+    return zoom_exe_path
+  return False
 
+
+zoom_exe_path = get_zoom_exe_path()
+sandboxie_exe_path = get_sandboxie_exe_path()
 sandboxie_box_prefix = 'SB'
 
 # ------------------------------------
@@ -68,7 +78,7 @@ def _onKeyPress(event):
 
 master = tk.Tk()
 master.bind("<Key>", _onKeyPress)
-master.title('Zoom Runner')
+master.title('Zoom Runner v0.0.4')
 tk.Label(master, text='Zoom Link').grid(row=0)
 tk.Label(master, text='Number of Zooms').grid(row=1)
 tk.Label(master, text='Main Zoom NOT sandboxed').grid(row=2)
@@ -80,16 +90,15 @@ e3 = tk.IntVar(master)
 e1.grid(row=0, column=1)
 e2.grid(row=1, column=1)
 
-tk.Button(master, text='Quit', command=master.quit).grid(
-    row=3, column=0, sticky=tk.W, pady=4)
-tk.Button(master, text='Join', command=join_meeting).grid(
-    row=3, column=1, sticky=tk.W, pady=4)
+tk.Button(master, text='Quit', command=master.quit).grid(row=3, column=0, sticky=tk.W, pady=4)
+tk.Button(master, text='Join', command=join_meeting).grid(row=3, column=1, sticky=tk.W, pady=4)
 tk.Checkbutton(master, variable=e3).grid(row=2, column=1, sticky=tk.W, pady=4)
 
 try:
   if not sandboxie_exe_path:
-    messagebox.showerror(
-        "Error", "Sandboxie was not found on your computer!")
+    messagebox.showerror('Error', 'Sandboxie was not found on your computer!')
+  elif not zoom_exe_path:
+    messagebox.showerror('Error', 'Zoom was not found on your computer!')
   else:
     tk.mainloop()
 except:
